@@ -67,3 +67,7 @@ h2 {
 nobr.widenobr {
   white-space: normal;
 }
+
+p {
+  text-indent: 20px;
+}
