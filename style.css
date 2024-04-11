@@ -71,3 +71,24 @@ nobr.widenobr {
 p {
   text-indent: 20px;
 }
+
+.preprocessing-list {
+  margin-top: 0; /* Remove top margin */
+  margin-bottom: 0; /* Remove bottom margin */
+  padding-top: 0; /* Remove top padding */
+  padding-bottom: 0; /* Remove bottom padding */
+}
+
+ul {
+  margin-top: 0; /* Remove top margin */
+  margin-bottom: 0; /* Remove bottom margin */
+  padding-top: 0; /* Remove top padding */
+  padding-bottom: 0; /* Remove bottom padding */
+}
+
+li {
+  margin-top: 0; /* Remove top margin */
+  margin-bottom: 0; /* Remove bottom margin */
+  padding-top: 0; /* Remove top padding */
+  padding-bottom: 0; /* Remove bottom padding */
+}
