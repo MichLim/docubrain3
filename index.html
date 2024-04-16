@@ -108,7 +108,7 @@
         These preprocessing steps ensure that only suitable answers are considered for question generation. For each
         candidate answer identified in the preprocessing stage, three consecutive sentences from the text are
         selected as context. This structured context and corresponding answer is formatted and provided as input to a
-        fine-tuned T5 model which then generates three candidate questions for each answer. The most semantically
+        fine-tuned T5 model (Text-To-Text Transfer Transformer) which then generates three candidate questions for each answer. The most semantically
         similar question to thecontext is then chosen as the final target question, ensuring relevance and coherence in
         questions.
         </p>
@@ -128,7 +128,71 @@
 
         <h2>Section 3: Method & Implementation</h2>
 
-        <p>insert section 3: Method & Implementation here</p>
+        <p>
+          Preprocessing Steps:<br>
+        <ol>
+          <li>
+            <strong>Data Collection:</strong> We collected the Stanford Question Answering Dataset (SQuAD) for our
+            project, which consists of comprising over 87,000 questions sourced from 500+ Wikipedia articles. Each question in
+            SQuAD is accompanied by a meticulously curated answer, facilitating in-depth exploration and analysis of
+            language understanding tasks.
+          </li>
+          <li>
+            <strong>Data Cleaning:</strong>
+            <ul>
+              <li>
+                <strong>Remove Unsuitable Sentences from Context:</strong> We filtered out sentences from the context
+                that were interrogative (e.g., "Would you like to have tea or coffee?") or imperative (e.g., "Remember
+                to pick up the dry cleaning today"), as well as those that did not contain necessary information (e.g.,
+                "Please wait").
+              </li>
+              <li>
+                <strong>Remove Improper Answers (Semantic Role Labels):</strong> We removed improper answers based on
+                Semantic Role Labels (SRL). For example, if the question was "How far did he travel?" and the answer was
+                "Further," where "Further" is labeled as ARGM-EXT (extent), it would be removed.
+              </li>
+              <li>
+                <strong>Remove Improper Answers (Part of Speech):</strong> We filtered out improper answers based on
+                Part of Speech (POS) tags. For instance, if the question was "What time is it?" and the answer was
+                "Now," where "Now" is labeled as a temporal adverb (TMP), it would be removed.
+              </li>
+              <li>
+                <strong>Remove Common Answers:</strong> We excluded common answers such as "stuff," "thing," "anyone,"
+                etc.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Tokenization:</strong> The text data was tokenized using the T5 tokenizer, breaking it down into
+            individual tokens or words to facilitate further processing.
+          </li>
+          <li>
+            <strong>Input-Output Pair Generation:</strong> We formatted the tokenized data into input-output pairs
+            suitable for training the T5 model. This involved concatenating the context and question texts as input and
+            using the answer texts as the target output.
+          </li>
+        </ol>
+        Experimental Setup:<br>
+        <ol>
+          <ul>
+            <li>
+              <strong>Preprocessed Data vs. Raw Data:</strong> We conducted experiments using both preprocessed and raw
+              SQuAD data to compare the performance of the T5 model under different conditions. The preprocessed data
+              underwent tokenization and input-output pair generation, while the raw data was fed directly into the
+              model without any preprocessing.
+            </li>
+            <li>
+              <strong>Subset Selection:</strong> Due to time constraints, we opted to run our experiments on a subset of
+              the SQuAD dataset rather than the entire corpus. This subset was selected to ensure a
+              representative sample of the data while minimizing computational resources.
+            </li>
+          </ul>
+        </ol>
+        Implementation: The implementation of our methodology is available in our here [insert link to code]. Detailed
+        code for data preprocessing, model training, and evaluation can be found in the provided link.
+
+
+        </p>
 
 
         <h2>Section 4: Experimental Findings</h2>
@@ -170,6 +234,13 @@
             Fairuz Dalim, Aina Sakinah Ishak, and Lina Mursyidah Hamzah.
             <em>Promoting Students’ Critical Thinking Through Socratic Method: The Views and Challenges.</em></a>
           Promoting Students’ Critical Thinking Through Socratic Method: The Views and Challenges.
+        </p>
+
+        <p><a name="T5 Guide">[4]</a> <a href="https://medium.com/nlplanet/a-full-guide-to-finetuning-t5-for-text2text-and-building-a-demo-with-streamlit-c72009631887">
+          Fabio Chiusano.
+          <em>A Full Guide to Finetuning T5 for Text2Text and Building a Demo with Streamlit</em>
+        </a>
+        All you need to know to build a full demo: Hugging Face Hub, Tensorboard, Streamlit, and Hugging Face Spaces.
         </p>
 
         <h2>Team Members</h2>
