@@ -99,16 +99,20 @@
           <li>Removing Common Answers: Words with high probabilities in the Google Books Ngram Dataset, such as "anyone"
             and
             "stuff," are removed from candidacy.</li>
-          <li>Filtering Answers in Clauses: Candidate answers appearing in clauses are identified and removed, as they
-            often
-            lead to inadequate question generation.</li>
+          <li>Filtering Answers in Clauses: Candidate answers found within clauses are assessed to ensure their
+            relevance.
+            Instead of simply removing answers appearing within clauses, our method scrutinizes whether the candidate
+            answers appear later in the same clause.
+            This approach aims to exclude answers that may not contribute effectively to the question generation
+            process, leading to more precise filtering.</li>
           <li>Removing Redundant Answers: Redundant candidate answers are removed, prioritizing syntactically important
             phrases to avoid inadequate question generation.</li>
         </ul>
         These preprocessing steps ensure that only suitable answers are considered for question generation. For each
         candidate answer identified in the preprocessing stage, three consecutive sentences from the text are
         selected as context. This structured context and corresponding answer is formatted and provided as input to a
-        fine-tuned T5 model (Text-To-Text Transfer Transformer) which then generates three candidate questions for each answer. The most semantically
+        fine-tuned T5 model (Text-To-Text Transfer Transformer) which then generates three candidate questions for each
+        answer. The most semantically
         similar question to thecontext is then chosen as the final target question, ensuring relevance and coherence in
         questions.
         </p>
@@ -133,7 +137,8 @@
         <ol>
           <li>
             <strong>Data Collection:</strong> We collected the Stanford Question Answering Dataset (SQuAD) for our
-            project, which consists of comprising over 87,000 questions sourced from 500+ Wikipedia articles. Each question in
+            project, which consists of comprising over 87,000 questions sourced from 500+ Wikipedia articles. Each
+            question in
             SQuAD is accompanied by a meticulously curated answer, facilitating in-depth exploration and analysis of
             language understanding tasks.
           </li>
@@ -160,6 +165,17 @@
                 <strong>Remove Common Answers:</strong> We excluded common answers such as "stuff," "thing," "anyone,"
                 etc.
               </li>
+              <li>
+                <strong>Filtering Answers in Clauses:</strong> Candidate answers found within clauses are evaluated for
+                relevance by considering their placement within the clause. Instead of simply discarding answers
+                appearing within clauses, our method examines whether the candidate answers are located later in the
+                same clause.
+              </li>
+              <li>
+                <strong>Removing Redundant Answers:</strong> Redundant candidate answers are eliminated, giving priority
+                to syntactically significant phrases.
+              </li>
+
             </ul>
           </li>
           <li>
@@ -169,7 +185,9 @@
           <li>
             <strong>Input-Output Pair Generation:</strong> We formatted the tokenized data into input-output pairs
             suitable for training the T5 model. This involved concatenating the context and question texts as input and
-            using the answer texts as the target output.
+            using the answer texts as the target output. Specifically, we included markers such as "&lt;context&gt;"
+            before the actual context and "&lt;answer&gt;" before the actual answer so that the model is made aware of
+            the different components and is able to distinguish them.
           </li>
         </ol>
         Experimental Setup:<br>
@@ -236,11 +254,12 @@
           Promoting Students’ Critical Thinking Through Socratic Method: The Views and Challenges.
         </p>
 
-        <p><a name="T5 Guide">[4]</a> <a href="https://medium.com/nlplanet/a-full-guide-to-finetuning-t5-for-text2text-and-building-a-demo-with-streamlit-c72009631887">
-          Fabio Chiusano.
-          <em>A Full Guide to Finetuning T5 for Text2Text and Building a Demo with Streamlit</em>
-        </a>
-        All you need to know to build a full demo: Hugging Face Hub, Tensorboard, Streamlit, and Hugging Face Spaces.
+        <p><a name="T5 Guide">[4]</a> <a
+            href="https://medium.com/nlplanet/a-full-guide-to-finetuning-t5-for-text2text-and-building-a-demo-with-streamlit-c72009631887">
+            Fabio Chiusano.
+            <em>A Full Guide to Finetuning T5 for Text2Text and Building a Demo with Streamlit.</em>
+          </a>
+          All you need to know to build a full demo: Hugging Face Hub, Tensorboard, Streamlit, and Hugging Face Spaces.
         </p>
 
         <h2>Team Members</h2>
