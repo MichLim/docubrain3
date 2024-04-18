@@ -129,3 +129,10 @@ div.team-member-card {
 .team-member-links{
   text-align: center;
 }
+
+.card img {
+  max-width: 90%; /* Make the image fit within the card */
+  height: auto; /* Maintain aspect ratio */
+  border-color: black;
+  border-radius: 10px;
+}
