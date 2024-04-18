@@ -22,6 +22,8 @@
     crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-A3o2pGpTV4L/4gr0VfDPL3+zMJyGAawjeJvnNnJ9xh4CjxGBWjv4tw1JPiSy61uc7mDf43NS2S3zEneXcD94zg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 </head>
 
@@ -40,7 +42,8 @@
       <div class="col justify-content-center text-center">
         <h2>An Analysis of<br>Downstream Transformer Generation of Question-Answer Pairs with Preprocessing and
           Postprocessing Pipelines</h2>
-        <p>This paper explores various methods for automatically generating questions from text and evaluates their
+          <br>
+        <p>This paper explores automatically generating questions from text and evaluates their
           effectiveness.
           What caught our attention was the prospect of leveraging neural networks to automate a task we've been
           manually performing throughout this semester: crafting questions for assigned articles.
@@ -50,6 +53,229 @@
     </div>
     <div class="row">
       <div class="col">
+
+        <div class="card">
+          <div class="header">
+            <h2>Section 1: Introduction</h2>
+          </div>
+          <div>
+            <p>DocuBrain3 is an Automatic Question Generation (AQG) project designed to automatically generate questions
+              from provided passages of text.
+              By analyzing and understanding the content, our project aims to generate relevant and meaningful questions
+              without human intervention.
+              It takes passages of text as input and produces corresponding questions, facilitating enhanced comprehension
+              and utilization of textual content.
+              Inspired by the research paper "Downstream Transformer Generation of Question-Answer Pairs with Preprocessing
+              and Postprocessing Pipelines," our approach leverages the insights from state-of-the-art methodologies
+              outlined therein.
+              Furthermore, we utilize the SQUAD dataset as a foundational resource, enriching our system's ability to
+              generate questions with accuracy and relevance.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="header">
+            <h2>Section 2: Paper Review</h2>
+          </div>
+          <div>
+            <p>“Downstream Transformer Generation of Question-Answer Pairs with Preprocessing and Postprocessing Pipelines”
+              introduces TP3, a system designed for generating question-answer pairs (QAPs) from given articles.
+              The TP3 system utilizes a pretrained T5 transformer model to generate questions, employing preprocessing and
+              postprocessing pipelines with various NLP tools and algorithms.
+              This paper's methodology is very closely related to our project, DocuBrain3, as we also utilize pretrained
+              transformer models and the SQuAD dataset to automate question generation from textual content.
+              For fine-tuning, each QAP and its context from SQuAD are concatenated, with the question as the target.
+              Learning rates are determined using the Cyclical Learning Rates method and adjusted based on evaluation
+              metrics like BLEU, ROUGE, METEOR, and BERTScore, leading to the identification of optimal rates. T5-Large
+              consistently outperforms T5-Base, with specific learning rates yielding the best results. The paper provides
+              detailed measurement results for both models, leading to the development of T5-Base-SQuAD1 and
+              T5-Large-SQuAD1, which demonstrate superior performance.
+            </p>
+    
+            <p class="preprocessing-list">
+              The preprocessing pipeline in TP3 is crucial for selecting appropriate answers and ultimately generating
+              high-quality questions. It involves several steps:
+            <ul>
+              <li>Removing Unsuitable Sentences: Interrogative and imperative sentences are removed, and semantic-role
+                labeling
+                is used to analyze and retain sentences with relevant semantic roles.</li>
+              <li>Filtering Candidate Answers: Nouns and phrasal nouns are considered candidate answers, with specific
+                criteria
+                for selection. Named entities and nouns with certain semantic-role labels are retained, while others are
+                removed.</li>
+              <li>Pruning Inadequate POS Tags: Nouns with inappropriate part-of-speech tags are removed or pruned to improve
+                question adequacy.</li>
+              <li>Removing Common Answers: Words with high probabilities in the Google Books Ngram Dataset, such as "anyone"
+                and
+                "stuff," are removed from candidacy.</li>
+              <li>Filtering Answers in Clauses: Candidate answers found within clauses are assessed to ensure their
+                relevance.
+                Instead of simply removing answers appearing within clauses, our method scrutinizes whether the candidate
+                answers appear later in the same clause.
+                This approach aims to exclude answers that may not contribute effectively to the question generation
+                process, leading to more precise filtering.</li>
+              <li>Removing Redundant Answers: Redundant candidate answers are removed, prioritizing syntactically important
+                phrases to avoid inadequate question generation.</li>
+            </ul>
+            These preprocessing steps ensure that only suitable answers are considered for question generation. For each
+            candidate answer identified in the preprocessing stage, three consecutive sentences from the text are
+            selected as context. This structured context and corresponding answer is formatted and provided as input to a
+            fine-tuned T5 model (Text-To-Text Transfer Transformer) which then generates three candidate questions for each
+            answer. The most semantically
+            similar question to thecontext is then chosen as the final target question, ensuring relevance and coherence in
+            questions.
+            </p>
+    
+            <p>
+              Following question generation, postprocessing steps are employed to refine the quality of generated
+              questions. Some examples include removing redundant information and single-word questions. The quality of QAPs
+              generated by TP3-Base and TP3-Large is evaluated using standard automatic metrics and human judgments.
+              T5-SQuAD1 demonstrates superior performance across ROUGE and METEOR metrics compared to other
+              models, highlighting its effectiveness in generating high-quality QAPs. In conclusion, TP3 leverages
+              pretrained T5 models and robust preprocessing/postprocessing pipelines to generate high-quality QAPs. Future
+              enhancements could focus on refining transformer models and exploring alternative methods for context
+              selection and question generation, advancing the capabilities of QAP generation. We aim to use these
+              preprocessing and postprocessing steps and ideas as inspiration for our AQG project.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="header">
+            <h2>Section 3: Method & Implementation</h2>
+          </div>
+          <div>
+            <p>       
+              Preprocessing Steps:<br>
+            <ol>
+              <li>
+                <strong>Data Collection:</strong> We collected the Stanford Question Answering Dataset (SQuAD) for our
+                project, which consists of comprising over 87,000 questions sourced from 500+ Wikipedia articles. Each
+                question in
+                SQuAD is accompanied by a meticulously curated answer, facilitating in-depth exploration and analysis of
+                language understanding tasks.
+              </li>
+              <li>
+                <strong>Data Cleaning:</strong>
+                <ul>
+                  <li>
+                    <strong>Remove Unsuitable Sentences from Context:</strong> We filtered out sentences from the context
+                    that were interrogative (e.g., "Would you like to have tea or coffee?") or imperative (e.g., "Remember
+                    to pick up the dry cleaning today"), as well as those that did not contain necessary information (e.g.,
+                    "Please wait").
+                  </li>
+                  <li>
+                    <strong>Remove Improper Answers (Semantic Role Labels):</strong> We removed improper answers based on
+                    Semantic Role Labels (SRL). For example, if the question was "How far did he travel?" and the answer was
+                    "Further," where "Further" is labeled as ARGM-EXT (extent), it would be removed.
+                  </li>
+                  <li>
+                    <strong>Remove Improper Answers (Part of Speech):</strong> We filtered out improper answers based on
+                    Part of Speech (POS) tags. For instance, if the question was "What time is it?" and the answer was
+                    "Now," where "Now" is labeled as a temporal adverb (TMP), it would be removed.
+                  </li>
+                  <li>
+                    <strong>Remove Common Answers:</strong> We excluded common answers such as "stuff," "thing," "anyone,"
+                    etc.
+                  </li>
+                  <li>
+                    <strong>Filtering Answers in Clauses:</strong> Candidate answers found within clauses are evaluated for
+                    relevance by considering their placement within the clause. Instead of simply discarding answers
+                    appearing within clauses, our method examines whether the candidate answers are located later in the
+                    same clause.
+                  </li>
+                  <li>
+                    <strong>Removing Redundant Answers:</strong> Redundant candidate answers are eliminated, giving priority
+                    to syntactically significant phrases.
+                  </li>
+    
+                </ul>
+              </li>
+              <li>
+                <strong>Tokenization:</strong> The text data was tokenized using the T5 tokenizer, breaking it down into
+                individual tokens or words to facilitate further processing.
+              </li>
+              <li>
+                <strong>Input-Output Pair Generation:</strong> We formatted the tokenized data into input-output pairs
+                suitable for training the T5 model. This involved concatenating the context and question texts as input and
+                using the answer texts as the target output. Specifically, we included markers such as "&lt;context&gt;"
+                before the actual context and "&lt;answer&gt;" before the actual answer so that the model is made aware of
+                the different components and is able to distinguish them.
+              </li>
+            </ol>
+            </p>
+            <p>
+              Experimental Setup:<br>
+            <ol>
+              <ul>
+                <li>
+                  <strong>Preprocessed Data vs. Raw Data:</strong> We conducted experiments using both preprocessed and raw
+                  SQuAD data to compare the performance of the T5 model under different conditions. The preprocessed data
+                  underwent tokenization and input-output pair generation, while the raw data was fed directly into the
+                  model without any preprocessing.
+                </li>
+                <li>
+                  <strong>Subset Selection:</strong> Due to time constraints, we opted to run our experiments on a subset of
+                  the SQuAD dataset rather than the entire corpus. This subset was selected to ensure a
+                  representative sample of the data while minimizing computational resources.
+                </li>
+              </ul>
+            </ol>
+            Implementation: The implementation of our methodology is available in our here [insert link to code]. Detailed
+            code for data preprocessing, model training, and evaluation can be found in the provided link.
+    
+    </p>
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="header">
+            <h2>Section 4: Experimental Findings</h2>
+          </div>
+          <div>
+            <p>insert section 4: Experimental Findings here</p>
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="header">
+            <h2>References</h2>
+          </div>
+          <div>
+
+            <p><a name="Zhang Paper">[1]</a> <a href="https://doi.org/10.48550/arXiv.2205.07387">Cheng Zhang, Hao Zhang, Jie
+              Wang.
+              <em>Downstream Transformer Generation of Question-Answer Pairs with Preprocessing and Postprocessing
+                Pipelines</em></a>
+            Downstream Transformer Generation of Question-Answer Pairs with Preprocessing and Postprocessing Pipelines
+          </p>
+  
+          <p><a name="AQG Paper">[2]</a> <a
+              href="https://www.researchgate.net/publication/321147222_Automatic_Question_Generation_Approaches_and_Evaluation_Techniques">Manisha
+              Divate and Ambuja Salgaonkar.
+              <em>Automatic question generation approaches and evaluation techniques.</em></a>
+            Automatic question generation approaches and evaluation techniques.
+          </p>
+  
+          <p><a name="Socratic Method">[3]</a> <a href="https://myjms.mohe.gov.my/index.php/AJUE/article/view/20012">Siti
+              Fairuz Dalim, Aina Sakinah Ishak, and Lina Mursyidah Hamzah.
+              <em>Promoting Students’ Critical Thinking Through Socratic Method: The Views and Challenges.</em></a>
+            Promoting Students’ Critical Thinking Through Socratic Method: The Views and Challenges.
+          </p>
+  
+          <p><a name="T5 Guide">[4]</a> <a
+              href="https://medium.com/nlplanet/a-full-guide-to-finetuning-t5-for-text2text-and-building-a-demo-with-streamlit-c72009631887">
+              Fabio Chiusano.
+              <em>A Full Guide to Finetuning T5 for Text2Text and Building a Demo with Streamlit.</em>
+            </a>
+            All you need to know to build a full demo: Hugging Face Hub, Tensorboard, Streamlit, and Hugging Face Spaces.
+          </p>
+          </div>
+        </div>
+
+         <!-- Card layout above, normal text layout below -->
 
         <h2>Section 1: Introduction</h2>
 
@@ -266,9 +492,29 @@
 
         <h2>Team Members</h2>
 
-        <p>Mihir Dontamsetti <a href="mailto:dontamsetti.m@northeastern.edu">dontamsetti.m@northeastern.edu</a> and
-          Michelle Lim <a href="mailto:lim.miche@northeastern.edu">lim.miche@northeastern.edu
-        </p>
+        <div class ="team-member-container">
+          <div class="team-member-card">
+            <div>
+              <p class="team-member-name">Mihir Dontamsetti</p>
+            </div>
+            <div class="team-member-links">
+                <a href="mailto:dontamsetti.m@northeastern.edu">dontamsetti.m@northeastern.edu</a>
+                <br>
+                <a href="https://www.linkedin.com/in/mihir-dontamsetti-999b03182/">LinkedIn</a>
+            </div>
+          </div>
+
+          <div class="team-member-card">
+            <div>
+              <p class="team-member-name">Michelle Lim</p>
+            </div>
+            <div class="team-member-links">
+              <a href="mailto:lim.miche@northeastern.edu">lim.miche@northeastern.edu</a>
+              <br>
+              <a href="https://www.linkedin.com/in/mich-lim/">LinkedIn</a>
+            </div>
+          </div>
+        </div>
 
 
       </div><!--col-->

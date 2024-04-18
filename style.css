@@ -2,7 +2,11 @@ body, td, th {
   font-family: 'Open Sans', sans-serif;
 }
 h2 {
-  margin-top: 3ex;
+  /*margin-top: 3ex;*/
+  margin-top: 1ex;
+  margin-bottom: 1ex;
+  text-align: center;
+  font-weight: bold;
 }
 /* Deep blues */
 .color-primary-0 { color: #233BF5 }
@@ -91,4 +95,37 @@ li {
   margin-bottom: 0; /* Remove bottom margin */
   padding-top: 0; /* Remove top padding */
   padding-bottom: 0; /* Remove bottom padding */
+}
+
+div.card {
+  /*width: 250px;*/
+  box-shadow: 0 1px 2px 0 rgba(190, 190, 190, 0.2), 0 2px 5px 0 rgba(183, 183, 183, 0.19);
+  text-align: left;
+  padding: 15px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.team-member-container {
+  display: flex;
+  justify-content: center;
+  gap: 150px;
+}
+
+div.team-member-card {
+  /*width: 250px;*/
+  box-shadow: 0 2px 20px 0 rgba(131, 131, 131, 0.2), 0 5px 5px 0 rgba(121, 121, 121, 0.19);
+  text-align: left;
+  padding: 50px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.team-member-name{
+  font-weight: bold;
+  text-align: center;
+}
+
+.team-member-links{
+  text-align: center;
 }
