@@ -308,12 +308,39 @@
             <br><br>
 
             <p>
-              We hypothesize that the preprocessed model often outputs translations because its weights are much closer to
+              We hypothesize that the preprocessed model often outputs translations because its weights are much closer
+              to
               the t5-small model, as we are aware that the t5 series of models are very good in machine translation.
               This also may be why it sometimes outputs the context directly, as this is a part of the 'summarization'
               feature of the t5 model. More detailed notes about this can be found in our visualization notebook <a
-              href="https://colab.research.google.com/drive/1tpWEF-DAk1Bmwnht7ReeBaVv40Eo-MIk?usp=sharing"
-              target="_blank">DB3_Interesting_NN_Visualizations.ipynb</a>.
+                href="https://colab.research.google.com/drive/1tpWEF-DAk1Bmwnht7ReeBaVv40Eo-MIk?usp=sharing"
+                target="_blank">DB3_Interesting_NN_Visualizations.ipynb</a>.
+            </p>
+
+            <p>
+              We conducted a direct comparison between the changes in weights observed in the preprocessed model and the
+              unpreprocessed model. Through this analysis, we observed that the weights of the preprocessing model
+              exhibit closer proximity to those of the base model. This proximity led us to hypothesize that the
+              preprocessing model tends to delve into machine translation tendencies to a certain extent.
+
+            </p>
+
+            <div class="experimental-findings">
+
+              <div class="image-container">
+                <img src="OG_model_weights_encoder.jpeg" alt="OG_model_weights_encoder.png">
+              </div>
+
+              <div class="image-container">
+                <img src="OG_model_weights_decoder.jpeg" alt="OG_model_weights_decoder.png">
+              </div>
+            </div>
+
+            <p>
+              This finding suggests that the preprocessing steps may influence the model's behavior, potentially
+              steering it towards behaviors akin to machine translation. Further investigation into the impact of
+              preprocessing on model performance could yield valuable insights into improving question generation
+              capabilities.
             </p>
 
             <p>
@@ -337,11 +364,6 @@
                 <img src="unpreprocessed_model_loss.png" alt="unpreprocessed_model_loss.png">
               </div>
             </div>
-            <p>
-              As outlined in our methodology, we devised a manual metric strategy to evaluate the quality of generated
-              questions. By categorizing outputs into distinct groups based on their characteristics, we gained valuable
-              insights into the model's strengths and limitations.
-            </p>
 
             <p>
               <strong>Visualization and Analysis</strong>
