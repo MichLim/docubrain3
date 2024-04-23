@@ -308,6 +308,32 @@
             <br><br>
 
             <p>
+
+              As outlined in the research paper, there are currently not any good tests to show how ‘well formed’ a
+              question is. Due to the lack of training data, there were no question answer pairs that met the criteria
+              outlined in the research paper of an ‘adequate qap,’ so we designed our own. This manual metric strategy
+              has a set of different groups that each generated ‘question’ falls under. Note, we do not judge the
+              answers themselves to these questions because they frequently are nonsensical. The unique groups are as
+              follows: Valid English Question (VEQ) is a question that is grammatically correct in English, Valid
+              English Sentence (VES) is a sentence that is grammatically correct in English, Taken From Context (TFC) is
+              a generated ‘question’ that was directly copied over from the context provide, Taken From Context Non
+              English (TFCNE) is a translation of the context, Valid Non English Question (VNEQ) is a question generated
+              in another language, Valid Non English Sentence (VNES) is a sentence that is not taken from the context
+              but is in another language, and a Mixed English Question (MEQ) is a generated question that is
+              grammatically correct that includes both English and non-english words. Any generated question that does
+              not fall into any of these categories are labelled as an ‘Invalid Sentence’. When comparing the two models:
+              </p>
+              <img src="num_gen_examples_per_sentence.png" alt="num_gen_examples_per_sentence.png" style="max-width: 45%;">
+
+              
+              
+              <p>we can see that the unpreprocessed model mostly generated ‘Invalid
+              sentences’ while the preprocessed model generated significantly less invalid sentences, and significantly
+              more TFCNE and VEQ. In order to better understand this disparity we delved deeper into the model weights
+              to see if it can provide us any insights.
+            </p>
+
+            <p>
               We hypothesize that the preprocessed model often outputs translations because its weights are much closer
               to
               the t5-small model, as we are aware that the t5 series of models are very good in machine translation.
@@ -324,17 +350,6 @@
               preprocessing model tends to delve into machine translation tendencies to a certain extent.
 
             </p>
-
-            <div class="experimental-findings">
-
-              <div class="image-container">
-                <img src="OG_model_weights_encoder.jpeg" alt="OG_model_weights_encoder.png">
-              </div>
-
-              <div class="image-container">
-                <img src="OG_model_weights_decoder.jpeg" alt="OG_model_weights_decoder.png">
-              </div>
-            </div>
 
             <p>
               This finding suggests that the preprocessing steps may influence the model's behavior, potentially
@@ -485,6 +500,41 @@
             </p>
 
             <p>
+              We hypothesize that the preprocessed model often outputs translations because its weights are much closer
+              to the t5-small model, as we are aware that the t5 series of models are very good in machine translation.
+              This also may be why it sometimes outputs the context directly, as this is a part of the 'summarization'
+              feature of the t5 model. More detailed notes about this can be found in our visualization notebook
+              DB3_Interesting_NN_Visualizations.ipynb.
+
+            </p>
+
+            <p>
+              We conducted a direct comparison between the changes in weights observed in the preprocessed model and the
+              unpreprocessed model. Through this analysis, we observed that the weights of the preprocessing model
+              exhibit closer proximity to those of the base model. This proximity led us to hypothesize that the
+              preprocessing model tends to delve into machine translation tendencies to a certain extent.
+            </p>
+
+              <div class="experimental-findings">
+
+                <div class="image-container">
+                  <img src="OG_model_weights_encoder.jpeg" alt="OG_model_weights_encoder.png">
+                </div>
+  
+                <div class="image-container">
+                  <img src="OG_model_weights_decoder.jpeg" alt="OG_model_weights_decoder.png">
+                </div>
+              </div>
+
+              <p>
+              This finding suggests that the preprocessing steps may influence the model's behavior, potentially
+              steering it towards behaviors akin to machine translation. Further investigation into the impact of
+              preprocessing on model performance could yield valuable insights into improving question generation
+              capabilities.
+             </p>
+
+
+            <p>
               Overall, our experimental findings underscore the challenges and opportunities inherent in automatic
               question generation. While our model demonstrates potential, further refinement and optimization are
               required to achieve consistent and reliable question generation.
@@ -502,14 +552,23 @@
         <div class="card">
           <h2>Section 5: Conclusion</h2>
 
-          <p>While DocuBrain3 has demonstrated promising capabilities in automatic question generation, further
-            improvements could be achieved with access to additional data and computational resources. With a larger and
-            more diverse dataset, along with extended training duration, DocuBrain3 could potentially enhance the
-            quality and coherence of the questions generated. Increased computing power would enable deeper model
-            exploration and refinement, leading to a more nuanced understanding of language patterns and contexts. This
-            has the potential to improve the relevance, complexity, and intelligibility of the questions generated,
-            ultimately enhancing the overall utility and effectiveness of DocuBrain3 in educational and interactive
-            learning settings.
+          <p>Through our analysis of DocuBrain3's performance in automatic question generation, it's evident that while
+            the model has shown promising capabilities, further enhancements could be achieved with additional data and
+            computational resources. Access to a larger and more diverse dataset, coupled with extended training
+            duration, holds the potential to significantly improve the quality and coherence of the questions generated.
+            Moreover, increased computing power would facilitate deeper model exploration and refinement, enabling a
+            more nuanced understanding of language patterns and contexts. This, in turn, could lead to improvements in
+            the relevance, complexity, and intelligibility of the questions generated, thereby enhancing the overall
+            utility and effectiveness of DocuBrain3 in educational and interactive learning settings.
+          </p>
+          <p>
+            Our analysis also sheds light on the impact of preprocessing methods on model performance. Despite not
+            achieving the exact results outlined in the research paper, our comparison of a model utilizing the
+            preprocessing method described in the paper with an identical model trained under the same conditions
+            revealed notable benefits. Specifically, the preprocessing method significantly reduced the occurrence of
+            invalid sentences while increasing the proportion of valid English questions. This underscores the
+            importance of preprocessing techniques in optimizing model performance and underscores the potential for
+            further refinement in this area.
           </p>
           <p>By automating the process of question generation, we seek to provide a valuable tool for enhancing
             learning,
