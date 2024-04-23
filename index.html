@@ -308,27 +308,34 @@
             <br><br>
 
             <p>
-
-              As outlined in the research paper, there are currently not any good tests to show how ‘well formed’ a
+              Even though we could not train the model on the full dataset due to limitations in computing power, we wanted to test the preprocessing methods
+              outlined in the paper, so we compared a model trained on the preprocessed dataset to a model trained
+              without the preprocessed dataset but using the same amount of data, hyper parameters, and training time.
+            </p>
+            
+            <p>
+              As outlined in the research paper, there are currently not any good tests to show how 'well formed' a
               question is. Due to the lack of training data, there were no question answer pairs that met the criteria
-              outlined in the research paper of an ‘adequate qap,’ so we designed our own. This manual metric strategy
-              has a set of different groups that each generated ‘question’ falls under. Note, we do not judge the
+              outlined in the research paper of an 'adequate qap,' so we designed our own. This manual metric strategy
+              has a set of different groups that each generated 'question' falls under. Note, we do not judge the
               answers themselves to these questions because they frequently are nonsensical. The unique groups are as
               follows: Valid English Question (VEQ) is a question that is grammatically correct in English, Valid
               English Sentence (VES) is a sentence that is grammatically correct in English, Taken From Context (TFC) is
-              a generated ‘question’ that was directly copied over from the context provide, Taken From Context Non
+              a generated 'question' that was directly copied over from the context provide, Taken From Context Non
               English (TFCNE) is a translation of the context, Valid Non English Question (VNEQ) is a question generated
               in another language, Valid Non English Sentence (VNES) is a sentence that is not taken from the context
               but is in another language, and a Mixed English Question (MEQ) is a generated question that is
               grammatically correct that includes both English and non-english words. Any generated question that does
-              not fall into any of these categories are labelled as an ‘Invalid Sentence’. When comparing the two models:
-              </p>
-              <img src="num_gen_examples_per_sentence.png" alt="num_gen_examples_per_sentence.png" style="max-width: 45%;">
+              not fall into any of these categories are labelled as an 'Invalid Sentence'. When comparing the two
+              models:
+            </p>
+            <img src="num_gen_examples_per_sentence.png" alt="num_gen_examples_per_sentence.png"
+              style="max-width: 45%;">
 
-              
-              
-              <p>we can see that the unpreprocessed model mostly generated ‘Invalid
-              sentences’ while the preprocessed model generated significantly less invalid sentences, and significantly
+
+
+            <p>we can see that the unpreprocessed model mostly generated 'Invalid
+              sentences' while the preprocessed model generated significantly less invalid sentences, and significantly
               more TFCNE and VEQ. In order to better understand this disparity we delved deeper into the model weights
               to see if it can provide us any insights.
             </p>
@@ -515,23 +522,23 @@
               preprocessing model tends to delve into machine translation tendencies to a certain extent.
             </p>
 
-              <div class="experimental-findings">
+            <div class="experimental-findings">
 
-                <div class="image-container">
-                  <img src="OG_model_weights_encoder.jpeg" alt="OG_model_weights_encoder.png">
-                </div>
-  
-                <div class="image-container">
-                  <img src="OG_model_weights_decoder.jpeg" alt="OG_model_weights_decoder.png">
-                </div>
+              <div class="image-container">
+                <img src="OG_model_weights_encoder.jpeg" alt="OG_model_weights_encoder.png">
               </div>
 
-              <p>
+              <div class="image-container">
+                <img src="OG_model_weights_decoder.jpeg" alt="OG_model_weights_decoder.png">
+              </div>
+            </div>
+
+            <p>
               This finding suggests that the preprocessing steps may influence the model's behavior, potentially
               steering it towards behaviors akin to machine translation. Further investigation into the impact of
               preprocessing on model performance could yield valuable insights into improving question generation
               capabilities.
-             </p>
+            </p>
 
 
             <p>
